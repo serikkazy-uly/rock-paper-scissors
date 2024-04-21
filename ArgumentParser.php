@@ -1,8 +1,10 @@
 <?php
-class ArgumentParser {
+class ArgumentParser
+{
     private $moves;
 
-    public function __construct($args) {
+    public function __construct($args)
+    {
         if (count($args) < 4 || count($args) % 2 !== 0) {
             echo "Invalid number of arguments. Usage: php index.php [move1] [move2] ... [moveN]\n";
             exit(1);
@@ -16,7 +18,8 @@ class ArgumentParser {
         $this->moves = array_values($args);
     }
 
-    public function getMoves() {
+    public function getMoves()
+    {
         return $this->moves;
     }
 }
