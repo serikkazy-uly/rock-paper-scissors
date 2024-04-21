@@ -20,9 +20,11 @@ class Game
             echo ($index + 1) . " - $move\n";
         }
         echo "0 - exit\n? - help\n";
+        $this->play();
+
     }
 
-    public function userMove()
+    public function play()
     {
         do {
             echo "Enter your move: ";
@@ -34,6 +36,10 @@ class Game
             
             }
     
+            if (!is_numeric($input)) {
+                echo "Invalid input. Please enter a number.\n";
+                continue;
+            }
     
             $moveIndex = intval($input) - 1;
         } while (!is_numeric($input) || $moveIndex < 0 || $moveIndex >= count($this->moves));
