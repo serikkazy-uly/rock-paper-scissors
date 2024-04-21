@@ -1,9 +1,10 @@
 <?php
-require_once 'KeyGenerator.php';
-require_once 'HmacCalculator.php';
+require_once 'ArgumentParser.php';
 
-$move = 'rock';
-$hmacKey = 'eff44c51cc42fca878651959ef18440f';
+$arguments = $_SERVER['argv'];
 
-$hmac = HmacCalculator::calculateHmac($move, $hmacKey);
-echo "HMAC for '$move': $hmac\n";
+$argumentParser = new ArgumentParser($arguments);
+
+$moves = $argumentParser->getMoves();
+
+echo "Moves: " . implode(", ", $moves) . "\n";
