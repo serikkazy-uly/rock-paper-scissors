@@ -1,8 +1,6 @@
 <?php
 
 
-// Game.php
-
 class Game {
     private $moves;
     private $hmacKey;

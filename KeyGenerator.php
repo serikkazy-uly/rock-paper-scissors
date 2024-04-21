@@ -6,5 +6,3 @@ class KeyGenerator {
         return bin2hex(random_bytes(16)); 
     }
 }
-// $hmacKey = bin2hex(random_bytes(16));
-// echo "Generated HMAC key: $hmacKey\n";
