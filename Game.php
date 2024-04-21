@@ -27,7 +27,13 @@ class Game
         do {
             echo "Enter your move: ";
             $input = readline();
-           
+            if ($input === '0') {
+                exit();
+            } elseif ($input === '?') {
+                echo KeyGenerator::generateKey($this->moves) . "\n";
+            
+            }
+    
     
             $moveIndex = intval($input) - 1;
         } while (!is_numeric($input) || $moveIndex < 0 || $moveIndex >= count($this->moves));
