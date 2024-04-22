@@ -63,18 +63,26 @@ class Game
 
     public function play()
     {
+        $compMove = $this->moves[array_rand($this->moves)];
+        echo "Computer move: $compMove\n";
+
+        $prevHmac = HmacCalculator::calculateHmac($compMove, $this->hmacKey);
+
         $userMove = $this->getUserMove();
 
         if ($userMove === "0") {
             exit();
         }
 
-        $compMove = $this->moves[array_rand($this->moves)];
+        $newHmac = HmacCalculator::calculateHmac($userMove, $this->hmacKey);
+
+        if ($prevHmac !== $newHmac) {
+            echo "Error: Computer's move changed after your move!\n";
+            exit(1);
+        }
 
         $result = $this->getResult($userMove, $compMove);
-
         echo "Your move: $userMove\n";
-        echo "Computer move: $compMove\n";
         echo "$result\n";
 
         $this->play();
