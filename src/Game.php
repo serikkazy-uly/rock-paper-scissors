@@ -8,7 +8,7 @@ class Game
 {
     private $moves;
     private $hmacKey;
-    private $prevHmac;
+    private $computerMoveHmac;
 
     public function __construct($moves, $hmacKey)
     {
@@ -22,10 +22,11 @@ class Game
             echo "Invalid number of moves. Please provide an odd number of unique moves (at least 3).\n";
             exit(1);
         }
-        $hmac = HmacCalculator::calculateHmac($this->moves[0], $this->hmacKey);
-        $this->prevHmac = $hmac;
 
-        echo "HMAC: $hmac\n";
+        $this->computerMoveHmac = $this->generateComputerMoveHmac();
+
+        echo "Secret key: {$this->hmacKey}\n";
+        echo "HMAC: {$this->computerMoveHmac}\n";
 
         echo "Available moves:\n";
         foreach ($this->moves as $index => $move) {
@@ -34,6 +35,12 @@ class Game
         echo "0 - exit\n? - help\n";
 
         $this->play();
+    }
+
+    private function generateComputerMoveHmac()
+    {
+        $compMove = $this->moves[array_rand($this->moves)];
+        return HmacCalculator::calculateHmac($compMove, $this->hmacKey);
     }
 
     private function getUserMove()
@@ -72,16 +79,16 @@ class Game
         }
 
         $compMove = $this->moves[array_rand($this->moves)];
+        $this->computerMoveHmac = $this->generateComputerMoveHmac();
 
         $result = $this->getResult($userMove, $compMove);
 
         echo "Your move: $userMove\n";
         echo "Computer move: $compMove\n";
-        echo "Previous HMAC: " . $this->prevHmac . "\n";
         echo "$result\n";
 
-        $this->prevHmac = HmacCalculator::calculateHmac($compMove, $this->hmacKey);
-
+        echo "Computed HMAC: {$this->computerMoveHmac}\n";
+        echo "Enter your move (1 - Rock, 2 - Paper, 3 - Scissors): ";
         $this->play();
     }
 
