@@ -9,6 +9,7 @@ class Game
     private $moves;
     private $hmacKey;
     private $computerMoveHmac;
+    private $userMoveHmac;
 
     public function __construct($moves, $hmacKey)
     {
@@ -67,7 +68,10 @@ class Game
             $moveIndex >= count($this->moves)
         );
 
-        return $this->moves[$moveIndex];
+        $userMove = $this->moves[$moveIndex];
+        $this->userMoveHmac = HmacCalculator::calculateHmac($userMove, $this->hmacKey);
+
+        return $userMove;
     }
 
     public function play()
@@ -87,7 +91,9 @@ class Game
         echo "Computer move: $compMove\n";
         echo "$result\n";
 
-        echo "Computed HMAC: {$this->computerMoveHmac}\n";
+        echo "Your move HMAC: {$this->userMoveHmac}\n";
+        echo "Computer move HMAC: {$this->computerMoveHmac}\n";
+
         echo "Enter your move (1 - Rock, 2 - Paper, 3 - Scissors): ";
         $this->play();
     }
