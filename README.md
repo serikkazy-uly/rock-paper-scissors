@@ -44,7 +44,6 @@ Your move: scissors
 Computer move: rock
 Computer wins!
 Enter your move: 0 // выход из системы
-
 ```
 
 Требования по тестированию (Аудит)
@@ -82,3 +81,30 @@ php index.php rock paper scissors lizard Spock
 Запустите игру.
 Введите символ для выхода из игры (например, 0).
 Ожидаемый результат: Игра завершается без ошибок.
+
+
+ запуск с 3 и 7 параметрами, 
+ запуск с неправильными параметрами:
+  - повторение или 
+  - чётное число, 
+  - один или 
+  - отсутствие, 
+  - генерацию таблицы помощи (на 5 параметрах), 
+  выбор хода, 
+  вывод результатов;
+Audit:
+php index.php rock paper scissors - (3 параметра)
+php index.php rock paper scissors Spock fire lizard gun - (7 параметров)
+php index.php rock paper scissors Spock Spock - (дупликаты)
+
+php index.php rock paper (чётное число)
+php index.php rock (один)
+php index.php (отсутствие)
+
+php index.php rock paper scissors Spock lizard - (генерацию таблицы помощи на 5 параметрах)
+
+php index.php rock paper scissors - (выхода из игры - 0)
+
+php index.php rock paper scissors - (выбор хода)
+
+php index.php rock paper scissors - (вывод результатов ?)
