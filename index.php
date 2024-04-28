@@ -1,7 +1,7 @@
 <?php
-require_once "src/ArgumentParser.php";
+
 require_once "src/Game.php";
-require_once "src/HelpTableGenerator.php";
+require_once "src/ArgumentParser.php";
 require_once "src/HmacCalculator.php";
 require_once "src/KeyGenerator.php";
 
@@ -15,7 +15,7 @@ if (count($moves) % 2 !== 1 || count($moves) < 3) {
 
 $hmacKey = KeyGenerator::generateKey();
 
-$game = new Game($moves, $hmacKey);
+$game = new Game($moves);
 
 echo "HMAC: " . HmacCalculator::calculateHmac($moves[0], $hmacKey) . "\n";
 
@@ -29,7 +29,7 @@ $userMoveIndex = readline(
     "Enter your move (1-" . count($moves) . ") or '?' for help: "
 );
 if ($userMoveIndex === "?") {
-    echo HelpTableGenerator::generateTable($moves) . "\n";
+    $game->generateTable();
     exit(0);
 }
 
@@ -44,4 +44,19 @@ if (
     exit(1);
 }
 
-$game->play();
+$userMove = $moves[$userMoveIndex - 1];
+$computerMove = $moves[array_rand($moves)]; 
+$outcome = $game->determineOutcome($computerMove, $userMove);
+
+echo "Your move: $userMove\n";
+echo "Computer move: $computerMove\n";
+
+if ($outcome === "Win") {
+    echo "Congratulations! You win!\n";
+} elseif ($outcome === "Lose") {
+    echo "Sorry, you lose!\n";
+} else {
+    echo "It's a draw!\n";
+}
+
+echo "HMAC key: $hmacKey\n";
